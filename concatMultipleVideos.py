@@ -6,8 +6,6 @@ import re
 import sys
 from ffmpy import FFmpeg
 
-print(sys.path)
-
 #getting arguments from command line
 pathToVideos = sys.argv[1]
 convertFrom = sys.argv[2]
@@ -21,12 +19,9 @@ def convertVideostoTS(convertFrom):
 
     for file in files:
         print(file)
-        #creating output filename
-        #newFileName = "TStest" + file
 
         #get rid of extension, it will eventually be replaced with .ts
         newFileName = re.sub(convertFrom, '', file)
-        print(newFileName)
 
         #converting .mp4 files to .ts files (adding .ts extension as well)
         ff = FFmpeg(
@@ -35,7 +30,6 @@ def convertVideostoTS(convertFrom):
         )
         ff.cmd
         ff.run()
-
 
 def concatVideos(stringOfFiles, outputFileName):
 
@@ -60,7 +54,6 @@ stringOfFiles = "concat:" + stringOfFiles
 
 concatVideos(stringOfFiles, outputFileName)
 
-print("done")
 
 
 

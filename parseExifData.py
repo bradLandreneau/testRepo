@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+'''
+This code will take an input video and use Phil Harvey's exifTool to check the exif data of said video.  
+I suggest downloading exifTool and running it with some sample video to get a feel of what kind of exif data
+is obtained.  Note that different recording devices will generate different exif data!
+'''
+
 from subprocess import PIPE, run
 import sys
 import json

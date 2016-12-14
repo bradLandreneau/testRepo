@@ -5,6 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+/*
+This program creates an all black video that contains three lines of text, each centered in the middle of the screen.  The duration of 
+this video can be changed by changing the value of duration.  
+The lines of text are displayed as follows: 
+static      --> "On screen text!"
+firstline   --> firstLine variable
+secondline  --> lastName + firstName
+*/
+
 namespace ffmpegBumper
 {
     class Program
@@ -20,6 +29,7 @@ namespace ffmpegBumper
             string firstName = "brad";
             string lastName = "landreneau\\, ";
             string fontSize = "36";
+            string duration = "5";
 
             //directory you wish to work in
             string directory = "C:\\Users\\blandreneau\\Desktop\\bumperTest\\";
@@ -39,7 +49,7 @@ namespace ffmpegBumper
 
                 //this extremely long line will output three lines, centered in the screen. 
                 //not quite sure how to do multiline, bash arguments that work well with c# syntax at this time.
-                startInfo.Arguments = "-f lavfi -i color=c=black:s=1280x720:d=5: -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text='On Screen Text!':x=(main_w/2-text_w/2):y=(h)/2, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text=" + firstLine + ":x=(main_w/2-text_w/2):y=((h)/2)+40, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text=" + lastName + firstName + ":x=(main_w/2-text_w/2):y=((h)/2)+80[out]\" -y test_out.mp4";
+                startInfo.Arguments = "-f lavfi -i color=c=black:s=1280x720:d=" + duration + ": -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text='On Screen Text!':x=(main_w/2-text_w/2):y=(h)/2, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text=" + firstLine + ":x=(main_w/2-text_w/2):y=((h)/2)+40, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile='/Windows/Fonts/coolvetica.ttf':text=" + lastName + firstName + ":x=(main_w/2-text_w/2):y=((h)/2)+80[out]\" -y test_out.mp4";
 
                 //Console.WriteLine(startInfo.Arguments.ToString()); //if you want to see how the string is formatted when sent to console
 

@@ -3,7 +3,8 @@
 '''
 This code will take an input video and use Phil Harvey's exifTool to check the exif data of said video.  
 I suggest downloading exifTool and running it with some sample video to get a feel of what kind of exif data
-is obtained.  Note that different recording devices will generate different exif data!
+is obtained.  Note that different recording devices will generate different exif data (e.g. A video captured on 
+a Canon will have different exif data than that of video captured with a Sony)!
 '''
 
 from subprocess import PIPE, run

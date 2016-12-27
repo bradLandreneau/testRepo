@@ -10,11 +10,7 @@ namespace miniAP
 {
     class Program
     {
-
-	//test         
-        
-
-
+  
         static void Main(string[] args)
         {            
             string[] Months = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -74,23 +70,9 @@ namespace miniAP
                 //to ensure that they are centered, we must treat them as separate entities
                 dateStamp = stringMonth + " " + day + " " + year; //date formatted to HUB standards (Nov 13 2016)
                 timeStamp = time; //time formatted to ffmpeg argument form
-
-                
-                addDateAndTimeStamp(autoDir.ToString(), fileName, dateStamp, timeStamp);
-
-
-
-               
-                
+		    
+                addDateAndTimeStamp(autoDir.ToString(), fileName, dateStamp, timeStamp);    
             }
-
-            
-
-
-
-
-
-
 
             Console.ReadLine();
 
@@ -176,11 +158,7 @@ namespace miniAP
                 startInfo.RedirectStandardError = true; //we are redirecting stdErr to this program
                 startInfo.CreateNoWindow = true; //no need to create an extra window
                 startInfo.FileName = "ffmpeg.exe"; //we are running ffmpeg, make sure ffmpeg is in your %PATH
-
-                //the commented out line works!
-                //startInfo.Arguments = " -i " + pathToIndividualVideo + " -c:v h264_qsv -b:v 4000k -an -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ":timecode=" + timeStamp + ":  text=\'" + dateStamp + "': rate=30: fontsize=72:fontcolor='white':x=100: y=50: box=1: boxcolor=0x000000AA[out]\" " + pathToVideos + "/DTS" + videoName;
                 startInfo.Arguments = " -i " + pathToIndividualVideo + " -c:v h264_qsv -b:v 4000k -an -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ":timecode=" + timeStamp + ": rate=30: fontsize=40:fontcolor='white':x=w-tw-155: y=h-th-100, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ": text='" + dateStamp +"': x=w-tw-150: y=h-th-150[out]\" " + pathToVideos + "/DTS" + videoName;
-
                 process.StartInfo = startInfo;
                 process.Start();
                 stdError = process.StandardError.ReadToEnd();

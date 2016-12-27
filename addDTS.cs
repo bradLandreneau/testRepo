@@ -10,7 +10,8 @@ namespace miniAP
 {
     class Program
     {
-  
+        //test from c#
+
         static void Main(string[] args)
         {            
             string[] Months = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };

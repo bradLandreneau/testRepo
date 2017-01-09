@@ -10,30 +10,25 @@ namespace miniAP
 {
     class Program
     {
-
-        
-        
-
-
         static void Main(string[] args)
         {            
             string[] Months = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
             //setting up the directory where the files we wish to convert live
-            DirectoryInfo autoDir = new DirectoryInfo(@"C:\Users\blandreneau\Desktop\1612000466\");
-            FileInfo[] filesInAuto = null;
-            filesInAuto = autoDir.GetFiles();
+            DirectoryInfo videoDir = new DirectoryInfo(@"C:\Users\blandreneau\Desktop\myVideoDir\");
+            FileInfo[] filesInVideoDir = null;
+            filesInVideoDir = videoDir.GetFiles();
 
             //converting file extension to MP4 -- this is fine for an MTS, not sure about other file types
-            foreach (FileInfo file in filesInAuto)
+            foreach (FileInfo file in filesInVideoDir)
             {
                 string fileName = file.ToString(); //converting fileinfo to string
                 string extension = file.Extension.ToString(); //getting the extension fo the file
-                string pathToVideo = autoDir + fileName;
+                string pathToVideo = videoDir + fileName;
 
 
                 //renaming the file
-                System.IO.File.Move(pathToVideo, autoDir + fileName.Replace(extension, ".MP4")); //renaming the file
+                System.IO.File.Move(pathToVideo, videoDir + fileName.Replace(extension, ".MP4")); //renaming the file
             }
 
             foreach (FileInfo file in filesInAuto)
@@ -46,7 +41,7 @@ namespace miniAP
                 string day, stringMonth, year = null; //vars for date, time is simpler so no need to break it into hours,min,seconds
                 int intMonth = 0;
                 string fileName = file.ToString();
-                string pathToVideo = autoDir + fileName;
+                string pathToVideo = videoDir + fileName;
 
                 dateTimeOriginal = getDateTimeOriginal(pathToVideo);
                 string[] tokensFromDateTimeOriginal = dateTimeOriginal.Split(' '); //split the exif data into two parts, date and time
@@ -76,37 +71,19 @@ namespace miniAP
                 timeStamp = time; //time formatted to ffmpeg argument form
 
                 
-                addDateAndTimeStamp(autoDir.ToString(), fileName, dateStamp, timeStamp);
-
-
-
-               
-                
+                addDateAndTimeStamp(videoDir.ToString(), fileName, dateStamp, timeStamp);
             }
 
-            
-
-
-
-
-
-
-
             Console.ReadLine();
-
-
         }
         
 
         public static string getDateTimeOriginal(string pathToVideo)
         {
-            
-
             string outputFromExif = null;
             string dateTimeOriginal = null;
             string searchFor = "\"DateTimeOriginal\":";
             
-
             try
             {
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
@@ -115,9 +92,7 @@ namespace miniAP
                 startInfo.RedirectStandardOutput = true;
                 startInfo.CreateNoWindow = true;
                 startInfo.FileName = "exiftool.exe";
-                //startInfo.Arguments = "-j C:\\Users\\blandreneau\\Desktop\\00003.MTS";
-                startInfo.Arguments = "-j " + pathToVideo;
-
+                startInfo.Arguments = "-j " + pathToVideo; //-j gives us JSON formatting 
                 process.StartInfo = startInfo;
                 process.Start();
                 outputFromExif = process.StandardOutput.ReadToEnd().Replace("[", "").Replace("]", "");
@@ -176,11 +151,7 @@ namespace miniAP
                 startInfo.RedirectStandardError = true; //we are redirecting stdErr to this program
                 startInfo.CreateNoWindow = true; //no need to create an extra window
                 startInfo.FileName = "ffmpeg.exe"; //we are running ffmpeg, make sure ffmpeg is in your %PATH
-
-                //the commented out line works!
-                //startInfo.Arguments = " -i " + pathToIndividualVideo + " -c:v h264_qsv -b:v 4000k -an -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ":timecode=" + timeStamp + ":  text=\'" + dateStamp + "': rate=30: fontsize=72:fontcolor='white':x=100: y=50: box=1: boxcolor=0x000000AA[out]\" " + pathToVideos + "/DTS" + videoName;
                 startInfo.Arguments = " -i " + pathToIndividualVideo + " -c:v h264_qsv -b:v 4000k -an -vf \"[in]drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ":timecode=" + timeStamp + ": rate=30: fontsize=40:fontcolor='white':x=w-tw-155: y=h-th-100, drawtext=fontsize=" + fontSize + ":fontcolor=White:fontfile=" + fontfile + ": text='" + dateStamp +"': x=w-tw-150: y=h-th-150[out]\" " + pathToVideos + "/DTS" + videoName;
-
                 process.StartInfo = startInfo;
                 process.Start();
                 stdError = process.StandardError.ReadToEnd();
